@@ -1,73 +1,126 @@
-# pq-tls-lab
+<h1 align="center">pq-tls-lab</h1>
 
-How much does a TLS 1.3 handshake grow, and how much slower does it get, when you move from
-X25519 to the hybrid **X25519MLKEM768** key exchange and from ECDSA/Ed25519/RSA to **ML-DSA**
-certificates?
+<p align="center">
+  <strong>What does post-quantum TLS actually cost?</strong><br>
+  Byte-exact measurements of TLS 1.3 handshakes with hybrid <b>X25519MLKEM768</b> key exchange
+  and <b>ML-DSA</b> certificates, checked against the standards.
+</p>
 
-This repository answers that with a small, reproducible harness around the OpenSSL 3.5
-command-line tools, which support ML-KEM (FIPS 203) and ML-DSA (FIPS 204) natively.
-It measures:
+<p align="center">
+  <a href="https://github.com/Danix29/pq-tls-lab/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Danix29/pq-tls-lab/actions/workflows/ci.yml/badge.svg"></a>
+  <img alt="OpenSSL 3.5+" src="https://img.shields.io/badge/OpenSSL-3.5%2B-721412">
+  <img alt="Python 3.11+, standard library only" src="https://img.shields.io/badge/python-3.11%2B%20%C2%B7%20stdlib%20only-3776ab">
+  <img alt="FIPS 203 / 204" src="https://img.shields.io/badge/NIST-FIPS%20203%20%C2%B7%20FIPS%20204-555">
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-2ea043"></a>
+</p>
 
-- **Bytes on the wire per handshake message** (ClientHello, ServerHello, Certificate,
-  CertificateVerify) and the totals in each direction, from `openssl s_client -msg`.
-- **Full-handshake throughput** on loopback with `openssl s_time -new`, plus the client's CPU
-  time per handshake.
+---
 
-Status: early work in progress (v0.1 not yet released). See [Limitations](#limitations) before
-quoting any number from here.
+## At a glance
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/server-bytes-dark.svg">
+  <img alt="Stacked bar chart of the bytes the server sends in a TLS 1.3 handshake. With X25519, ECDSA P-256 needs 754 bytes and ML-DSA-65 needs 9,119; switching the key exchange to X25519MLKEM768 adds about 1.1 KB to every row." src="docs/server-bytes-light.svg" width="100%">
+</picture>
+
+| | Finding | Evidence |
+|---|---|---|
+| 1 | **Hybrid key exchange is cheap and fixed.** X25519 → X25519MLKEM768 adds **+1,176 B** to the client and **+1,088 B** to the server, whatever the certificate. | Deterministic; asserted against FIPS 203 in the tests |
+| 2 | **Certificates are the real cost.** The server sends **754 B** with ECDSA P-256 and **9,119 B** with ML-DSA-65: 12x more, before adding any intermediate CA. | Measured, [table below](#full-results) |
+| 3 | **On CPU, the signature change hurts more than the key-exchange change.** Median handshakes/s: 1,267 (ECDSA + X25519) → 1,178 with the hybrid group (−7 %) → 625 with ML-DSA-65 as well (−51 %). | Loopback on a laptop; spread up to 17 %, see [limitations](#limitations) |
+
+In short: the post-quantum key exchange is ready to deploy today; post-quantum *authentication*
+is where the bytes are, which is why NIST is still standardizing
+[additional signature schemes](https://csrc.nist.gov/projects/pqc-dig-sig) with smaller signatures.
+
+## Contents
+
+- [Quick start](#quick-start)
+- [How it works](#how-it-works)
+- [Verified against the standards](#verified-against-the-standards)
+- [Full results](#full-results)
+- [Limitations](#limitations)
+- [Repository layout](#repository-layout)
+- [Roadmap](#roadmap)
+- [References](#references)
 
 ## Quick start
 
-Requirements: Python 3.11+ (standard library only) and OpenSSL **3.5 or newer**.
-The harness looks for `openssl` in `$PQTLS_OPENSSL`, then on `PATH`, then in a few usual
-install locations (including the one bundled with Git for Windows), and refuses to run with
-an older version.
+Requirements: **OpenSSL 3.5 or newer** and **Python 3.11+**. No Python packages are needed.
 
 ```bash
-python -m unittest -v                     # parser unit tests + end-to-end checks
-python -m pqtls --out results/run.json    # full matrix: 6 signatures x 5 groups
+git clone https://github.com/Danix29/pq-tls-lab && cd pq-tls-lab
+python -m unittest -v                       # 15 tests: parsers, chart, end-to-end handshakes
+python -m pqtls --out results/my-run.json   # full matrix: 6 signatures x 5 groups (~6 min)
+```
+
+A quicker comparison of just two certificates and two groups:
+
+```bash
 python -m pqtls --sigs ecdsa-p256,mldsa65 --groups X25519,X25519MLKEM768 --seconds 1 --runs 1
 ```
 
+The harness finds `openssl` through `$PQTLS_OPENSSL`, then `PATH`, then common install
+locations (including the copy bundled with Git for Windows), and refuses to run on anything
+older than 3.5. To redraw the chart from your own results:
+`python -m pqtls.plot results/my-run.json docs/`.
+
 ## How it works
 
-For every (signature algorithm, group) pair:
+```mermaid
+sequenceDiagram
+    autonumber
+    participant B as pqtls.bench
+    participant S as openssl s_server
+    participant C as openssl s_client / s_time
+    B->>B: openssl req -x509 (one self-signed cert per signature algorithm)
+    B->>S: start on 127.0.0.1, -tls1_3, -groups <group> only
+    B->>C: s_client -groups <group> -msg
+    C->>S: one full TLS 1.3 handshake
+    C-->>B: size of every handshake message, negotiated group, signature
+    B->>B: abort unless negotiated group == requested group
+    B->>C: s_time -new, client pinned to <group> via OPENSSL_CONF
+    C->>S: as many full handshakes as fit in N seconds (x3 runs)
+    C-->>B: handshakes and client CPU time
+```
 
-1. A self-signed `CN=localhost` certificate is generated with `openssl req -x509`.
-2. `openssl s_server -tls1_3 -groups <group> -www` listens on a free loopback port.
-3. One `openssl s_client -tls1_3 -groups <group> -msg` handshake records the size of every
-   handshake message. The harness fails if the negotiated group is not the requested one.
-4. `openssl s_time -new` counts full handshakes over a fixed time. `s_time` has no `-groups`
-   option, so the client is pinned through an OpenSSL config file (`system_default`,
-   `Groups = <group>`) in `OPENSSL_CONF`. Because the server also accepts only that group,
-   a misconfigured client fails instead of measuring something else; the test suite checks
-   this with a negative control. As a side effect, your own OpenSSL configuration is not
-   loaded for these runs.
+Design choices worth knowing:
 
-Pairs run one at a time so that servers do not compete for the CPU.
+- **Both ends offer a single group**, so there is no HelloRetryRequest and nothing to negotiate.
+  The parser refuses any handshake where a message appears twice.
+- **`s_time` has no `-groups` flag**, so the client is pinned through an OpenSSL config file
+  (`system_default` → `Groups = <group>`). A negative-control test checks that a client pinned
+  to the wrong group completes zero handshakes, so the throughput numbers cannot silently come
+  from a different group.
+- **One combination at a time**, so servers never compete for the CPU.
+- **Asynchronous orchestration** (`asyncio` subprocesses) with timeouts on every OpenSSL call.
 
-## What the tests check against the standards
+## Verified against the standards
 
-The integration tests do not compare against previous runs; they compare against sizes fixed
-by the specifications:
+The integration tests compare the bytes on the wire with sizes fixed by the specifications,
+not with previous runs:
 
-| Check | Expected | Source |
+| What is checked | Expected | Source |
 |---|---|---|
-| ServerHello grows by the ML-KEM-768 ciphertext | +1088 B | FIPS 203, Table 3; RFC 10024 |
-| ClientHello grows by the ML-KEM-768 encapsulation key | +1184 B, minus 8 B (see below) | FIPS 203, Table 3; RFC 10024 |
-| CertificateVerify carries an ML-DSA signature | 2420 / 3309 / 4627 B + 8 B framing | FIPS 204, Table 2 |
+| ServerHello grows by the ML-KEM-768 ciphertext | **+1,088 B** | FIPS 203 (Table 3), RFC 10024 |
+| ClientHello grows by the ML-KEM-768 encapsulation key | **+1,184 B** − 8 B ¹ | FIPS 203 (Table 3), RFC 10024 |
+| CertificateVerify carries an ML-DSA-44 / 65 / 87 signature | **2,420 / 3,309 / 4,627 B** + 8 B framing | FIPS 204 (Table 2) |
+| The negotiated group is the requested one, for every row | exact match | `s_client` output |
 
-The ClientHello difference is 1176 B rather than 1184 B because OpenSSL only sends the
-`ec_point_formats` extension (8 B) when a pure ECDHE group is offered; the hybrid group alone
-does not trigger it. This was confirmed with `s_client -trace`.
+¹ OpenSSL sends the 8-byte `ec_point_formats` extension only when a pure ECDHE group is
+offered, so offering X25519MLKEM768 alone saves those 8 bytes. Found with `s_client -trace`.
 
-## Results
+CI runs the whole suite on Alpine Linux with OpenSSL 3.5 on every push and fails, instead of
+skipping, if OpenSSL is older than 3.5.
 
-First full run: 11 Nov 2026, Windows 11 laptop (Intel, family 6 model 183), OpenSSL 3.5.6
-from Git for Windows, Python 3.11.9, 3 runs of 3 s per pair. Raw data:
-[`results/windows-openssl-3.5.6.json`](results/windows-openssl-3.5.6.json).
-Sizes are handshake message lengths in bytes (including the 4-byte handshake header);
-"Client sent" and "Server sent" are the TLS bytes in each direction until the handshake completes.
+## Full results
+
+First full run: 11 Nov 2026 · Windows 11 laptop (Intel, family 6 model 183) · OpenSSL 3.5.6
+(Git for Windows) · Python 3.11.9 · 3 runs × 3 s per pair.
+Raw data: [`results/windows-openssl-3.5.6.json`](results/windows-openssl-3.5.6.json).
+
+<details>
+<summary><b>All 30 combinations</b> (sizes in bytes, including the 4-byte handshake header)</summary>
 
 | Signature | Group | ClientHello | ServerHello | Certificate | CertificateVerify | Client sent | Server sent | Handshakes/s (median) | Client CPU ms/hs (median) |
 |---|---|--:|--:|--:|--:|--:|--:|--:|--:|
@@ -102,66 +155,69 @@ Sizes are handshake message lengths in bytes (including the 4-byte handshake hea
 | mldsa87 | SecP256r1MLKEM768 | 1428 | 1243 | 7481 | 4635 | 1513 | 13516 | 579.8 | 0.509 |
 | mldsa87 | MLKEM768 | 1363 | 1178 | 7481 | 4635 | 1448 | 13451 | 636.0 | 0.389 |
 
-What this run supports:
+"Client sent" / "Server sent" are the TLS bytes in each direction until the handshake completes.
 
-- **The key exchange cost is fixed and small in bytes.** Moving from X25519 to X25519MLKEM768
-  adds 1176 B to the client's flight and 1088 B to the server's, whatever the certificate.
-  These numbers are deterministic and match the standards (see the tests above).
-- **Certificates dominate the size.** With a single self-signed ML-DSA-65 leaf the server sends
-  9119 B with X25519 (10207 B with X25519MLKEM768), against 754 B for ECDSA P-256.
-  Back-of-the-envelope, not measured: one ML-DSA-65 intermediate would add roughly another
-  5.5 KB, bringing the server's flight above 14.6 KB, the 10-segment initial congestion window
-  of RFC 6928 with a 1460-byte MSS. Whether that actually costs an extra round trip depends on
-  the TCP stack and the network; checking it with packet captures is on the roadmap.
-- **On loopback, the signature change costs more throughput than the key-exchange change.**
-  Median full handshakes per second: ECDSA P-256 with X25519 1267, with X25519MLKEM768 1178
-  (about -7 %), ML-DSA-65 with X25519MLKEM768 625 (about -51 %).
-
-What it does not support: fine-grained comparisons. Run-to-run spread reaches 17 % in some
-rows (for example Ed25519 with X25519MLKEM768: 978 to 1146 handshakes/s), so differences of
-around 10 % or less are not meaningful in this run. The client-CPU column has the same problem
-and should be read only as an order of magnitude.
+</details>
 
 ## Limitations
 
-- **Loopback, one machine.** Client and server share the same CPU and there is no network
-  latency or packet loss, so throughput reflects CPU cost only. On a real network the extra
-  bytes matter more (for example, when the server's first flight no longer fits in the TCP
-  initial congestion window).
-- **ECDSA sizes vary by a byte or two** between runs, because DER-encoded ECDSA signatures
-  have variable length. ML-DSA, Ed25519 and RSA sizes are fixed.
-- **Self-signed leaf only.** Real chains carry at least one intermediate certificate, so a
-  real ML-DSA chain is larger than what is measured here.
-- **Wall time includes process start-up.** `s_time` only reports whole seconds, so wall time
-  is measured around the process. Over multi-second runs this adds a few milliseconds.
-- **CPU time resolution.** The client CPU figure comes from `s_time` and inherits the OS timer
-  resolution (about 15.6 ms on Windows), so treat small differences as noise.
-- **Laptop measurements.** The published results come from a laptop with frequency scaling
-  and background load. Compare rows within one run, not across machines.
-- The CI checks that everything builds and runs; it does not make performance claims.
+Read these before quoting a number from this repository.
 
-## References
+- **Loopback on one machine.** Client and server share a CPU and there is no network delay or
+  loss, so throughput reflects CPU cost only. Over a real network the extra bytes matter more.
+- **Self-signed leaf only.** Real chains include at least one intermediate certificate, so a
+  real ML-DSA chain is bigger than measured here. Back-of-the-envelope, not measured: one
+  ML-DSA-65 intermediate adds about 5.5 KB, taking the server's flight above 14.6 KB, the
+  10-segment initial congestion window of RFC 6928 with a 1,460-byte MSS. Whether that costs an
+  extra round trip depends on the TCP stack and the network; that is the next thing to measure.
+- **Throughput is noisy on a laptop.** Run-to-run spread reaches 17 % in some rows (Ed25519 +
+  X25519MLKEM768: 978 to 1,146 handshakes/s), so differences of about 10 % or less mean
+  nothing here. The client-CPU column is an order of magnitude, not a precise figure.
+- **Wall time includes process start-up** (a few ms per multi-second run), because `s_time`
+  reports whole seconds only.
+- **ECDSA sizes move by a byte or two** between runs, because DER-encoded ECDSA signatures have
+  variable length. ML-DSA, Ed25519 and RSA sizes are fixed.
+- **The harness does not load your own OpenSSL configuration** for the `s_time` runs.
+- CI checks that everything builds and runs; it makes no performance claims.
 
-- NIST, FIPS 203, *Module-Lattice-Based Key-Encapsulation Mechanism Standard* (Aug 2024).
-  https://csrc.nist.gov/pubs/fips/203/final
-- NIST, FIPS 204, *Module-Lattice-Based Digital Signature Standard* (Aug 2024).
-  https://csrc.nist.gov/pubs/fips/204/final
-- RFC 10024, *Post-Quantum Traditional (PQ/T) Hybrid Key Agreement Mechanisms for TLS 1.3*
-  (formerly draft-ietf-tls-ecdhe-mlkem). https://datatracker.ietf.org/doc/rfc10024/
-- draft-ietf-tls-mldsa, *Use of ML-DSA in TLS 1.3* (Internet-Draft).
-  https://datatracker.ietf.org/doc/draft-ietf-tls-mldsa/
-- RFC 8446, *The Transport Layer Security (TLS) Protocol Version 1.3*.
-  https://www.rfc-editor.org/rfc/rfc8446
-- OpenSSL 3.5 release notes (ML-KEM, ML-DSA, SLH-DSA; X25519MLKEM768 in the default key shares).
-  https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md
+## Repository layout
+
+```text
+pqtls/
+  openssl.py     find OpenSSL >= 3.5, run it asynchronously with timeouts
+  certs.py       self-signed credentials for each signature algorithm
+  handshake.py   s_server / s_client orchestration and the -msg parser
+  latency.py     s_time throughput with the client pinned to one group
+  bench.py       CLI: the measurement matrix, JSON and Markdown output
+  plot.py        SVG charts from a results file (standard library only)
+tests/           unit tests and end-to-end checks against FIPS 203/204
+results/         raw results of each published run
+docs/            generated charts
+```
 
 ## Roadmap
 
-- Packet captures (pcap) of each handshake for inspection in Wireshark.
-- Certificate chains with an intermediate CA.
-- Latency under emulated network conditions (RTT, loss) in containers.
-- A Rust client built on rustls to compare against OpenSSL.
+- [x] Per-message handshake sizes and throughput, 6 signatures x 5 groups
+- [x] Size checks against FIPS 203/204, negative control for group pinning, CI on Linux
+- [ ] Certificate chains with an intermediate CA
+- [ ] Packet captures (pcap) per handshake, for inspection in Wireshark
+- [ ] Real-network conditions (RTT, loss) in containers, to test the congestion-window question
+- [ ] A Rust client on rustls, to compare implementations
 
-## License
+## References
 
-MIT, see [LICENSE](LICENSE).
+1. NIST, **FIPS 203**, *Module-Lattice-Based Key-Encapsulation Mechanism Standard*, Aug 2024. https://csrc.nist.gov/pubs/fips/203/final
+2. NIST, **FIPS 204**, *Module-Lattice-Based Digital Signature Standard*, Aug 2024. https://csrc.nist.gov/pubs/fips/204/final
+3. IETF, **RFC 10024**, *Post-Quantum Traditional (PQ/T) Hybrid Key Agreement Mechanisms for TLS 1.3*, Aug 2026. https://datatracker.ietf.org/doc/rfc10024/
+4. IETF, **draft-ietf-tls-mldsa**, *Use of ML-DSA in TLS 1.3*. https://datatracker.ietf.org/doc/draft-ietf-tls-mldsa/
+5. IETF, **RFC 8446**, *The Transport Layer Security (TLS) Protocol Version 1.3*. https://www.rfc-editor.org/rfc/rfc8446
+6. IETF, **RFC 6928**, *Increasing TCP's Initial Window*. https://www.rfc-editor.org/rfc/rfc6928
+7. OpenSSL, **3.5 release notes** (ML-KEM, ML-DSA, SLH-DSA; X25519MLKEM768 in the default key shares). https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md
+
+Background notes on the standards: [pqc-notes](https://github.com/Danix29/pqc-notes).
+
+## Security and license
+
+This is a measurement lab, not a TLS implementation; see [SECURITY.md](SECURITY.md).
+Code under the [MIT license](LICENSE). If you use the numbers, please cite the repository
+([CITATION.cff](CITATION.cff)).
