@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    # Alpine 3.22 ships OpenSSL 3.5, the first release with ML-KEM/ML-DSA in the default provider.
+    runs-on: ubuntu-latest
+    container: alpine:3.22
+    steps:
+      - name: Install OpenSSL and Python
+        run: apk add --no-cache openssl python3
+      - uses: actions/checkout@v4
+      - name: Require OpenSSL >= 3.5 (fail instead of skipping the integration tests)
+        run: |
+          openssl version
+          python3 -c "import asyncio; from pqtls.openssl import find_openssl; print(asyncio.run(find_openssl()))"
+      - name: Unit and integration tests
+        run: python3 -m unittest -v
+      - name: Smoke benchmark (checks it runs, not performance)
+        run: python3 -m pqtls --sigs ecdsa-p256,mldsa65 --groups X25519,X25519MLKEM768 --seconds 1 --runs 1

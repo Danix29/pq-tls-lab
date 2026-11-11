@@ -1,0 +1,1304 @@
+{
+  "environment": {
+    "date_utc": "2026-11-11T18:47:36+00:00",
+    "openssl": "OpenSSL 3.5.6 7 Apr 2026 (Library: OpenSSL 3.5.6 7 Apr 2026)",
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "seconds_per_run": 3,
+    "runs": 3
+  },
+  "results": [
+    {
+      "signature": "ecdsa-p256",
+      "group": "X25519",
+      "cert_der_len": 384,
+      "handshake": {
+        "group": "X25519",
+        "peer_signature": "ecdsa_secp256r1_sha256",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 754,
+        "bytes_written": 304,
+        "sent": {
+          "ClientHello": 219,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 122,
+          "EncryptedExtensions": 6,
+          "Certificate": 397,
+          "CertificateVerify": 78,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 4449,
+          "wall_seconds": 3.3440000000045984,
+          "client_user_seconds": 1.05
+        },
+        {
+          "connections": 5069,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.14
+        },
+        {
+          "connections": 5065,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.27
+        }
+      ],
+      "median_per_second": 1267.25,
+      "median_client_cpu_ms": 0.23600809170600134
+    },
+    {
+      "signature": "ecdsa-p256",
+      "group": "secp256r1",
+      "cert_der_len": 384,
+      "handshake": {
+        "group": "secp256r1",
+        "peer_signature": "ecdsa_secp256r1_sha256",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 789,
+        "bytes_written": 337,
+        "sent": {
+          "ClientHello": 252,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 155,
+          "EncryptedExtensions": 6,
+          "Certificate": 397,
+          "CertificateVerify": 80,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 4166,
+          "wall_seconds": 3.4690000000045984,
+          "client_user_seconds": 1.3
+        },
+        {
+          "connections": 4992,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.3
+        },
+        {
+          "connections": 4992,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.19
+        }
+      ],
+      "median_per_second": 1248.0,
+      "median_client_cpu_ms": 0.2604166666666667
+    },
+    {
+      "signature": "ecdsa-p256",
+      "group": "X25519MLKEM768",
+      "cert_der_len": 384,
+      "handshake": {
+        "group": "X25519MLKEM768",
+        "peer_signature": "ecdsa_secp256r1_sha256",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 1843,
+        "bytes_written": 1480,
+        "sent": {
+          "ClientHello": 1395,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1210,
+          "EncryptedExtensions": 6,
+          "Certificate": 397,
+          "CertificateVerify": 79,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 4003,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 1.36
+        },
+        {
+          "connections": 4712,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.23
+        },
+        {
+          "connections": 4764,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.55
+        }
+      ],
+      "median_per_second": 1178.0,
+      "median_client_cpu_ms": 0.3253568429890848
+    },
+    {
+      "signature": "ecdsa-p256",
+      "group": "SecP256r1MLKEM768",
+      "cert_der_len": 384,
+      "handshake": {
+        "group": "SecP256r1MLKEM768",
+        "peer_signature": "ecdsa_secp256r1_sha256",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 1875,
+        "bytes_written": 1513,
+        "sent": {
+          "ClientHello": 1428,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1243,
+          "EncryptedExtensions": 6,
+          "Certificate": 397,
+          "CertificateVerify": 78,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2770,
+          "wall_seconds": 3.438000000001921,
+          "client_user_seconds": 1.16
+        },
+        {
+          "connections": 3383,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.36
+        },
+        {
+          "connections": 3681,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.67
+        }
+      ],
+      "median_per_second": 845.75,
+      "median_client_cpu_ms": 0.4187725631768953
+    },
+    {
+      "signature": "ecdsa-p256",
+      "group": "MLKEM768",
+      "cert_der_len": 384,
+      "handshake": {
+        "group": "MLKEM768",
+        "peer_signature": "ecdsa_secp256r1_sha256",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 1811,
+        "bytes_written": 1448,
+        "sent": {
+          "ClientHello": 1363,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1178,
+          "EncryptedExtensions": 6,
+          "Certificate": 397,
+          "CertificateVerify": 79,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 4025,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 1.16
+        },
+        {
+          "connections": 4553,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.0
+        },
+        {
+          "connections": 4663,
+          "wall_seconds": 4.014999999999418,
+          "client_user_seconds": 1.0
+        }
+      ],
+      "median_per_second": 1161.394769614116,
+      "median_client_cpu_ms": 0.21963540522732264
+    },
+    {
+      "signature": "ed25519",
+      "group": "X25519",
+      "cert_der_len": 320,
+      "handshake": {
+        "group": "X25519",
+        "peer_signature": "ed25519",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 684,
+        "bytes_written": 304,
+        "sent": {
+          "ClientHello": 219,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 122,
+          "EncryptedExtensions": 6,
+          "Certificate": 333,
+          "CertificateVerify": 72,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 4438,
+          "wall_seconds": 3.438000000001921,
+          "client_user_seconds": 1.03
+        },
+        {
+          "connections": 4963,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.14
+        },
+        {
+          "connections": 4838,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.12
+        }
+      ],
+      "median_per_second": 1240.75,
+      "median_client_cpu_ms": 0.23150062009094668
+    },
+    {
+      "signature": "ed25519",
+      "group": "secp256r1",
+      "cert_der_len": 320,
+      "handshake": {
+        "group": "secp256r1",
+        "peer_signature": "ed25519",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 717,
+        "bytes_written": 337,
+        "sent": {
+          "ClientHello": 252,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 155,
+          "EncryptedExtensions": 6,
+          "Certificate": 333,
+          "CertificateVerify": 72,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 4107,
+          "wall_seconds": 3.438000000001921,
+          "client_user_seconds": 0.92
+        },
+        {
+          "connections": 4686,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.11
+        },
+        {
+          "connections": 4634,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.05
+        }
+      ],
+      "median_per_second": 1171.5,
+      "median_client_cpu_ms": 0.22658610271903323
+    },
+    {
+      "signature": "ed25519",
+      "group": "X25519MLKEM768",
+      "cert_der_len": 320,
+      "handshake": {
+        "group": "X25519MLKEM768",
+        "peer_signature": "ed25519",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 1772,
+        "bytes_written": 1480,
+        "sent": {
+          "ClientHello": 1395,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1210,
+          "EncryptedExtensions": 6,
+          "Certificate": 333,
+          "CertificateVerify": 72,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 3957,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 1.19
+        },
+        {
+          "connections": 3912,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.33
+        },
+        {
+          "connections": 4415,
+          "wall_seconds": 4.014999999999418,
+          "client_user_seconds": 1.17
+        }
+      ],
+      "median_per_second": 1099.6264009964234,
+      "median_client_cpu_ms": 0.3007328784432651
+    },
+    {
+      "signature": "ed25519",
+      "group": "SecP256r1MLKEM768",
+      "cert_der_len": 320,
+      "handshake": {
+        "group": "SecP256r1MLKEM768",
+        "peer_signature": "ed25519",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 1805,
+        "bytes_written": 1513,
+        "sent": {
+          "ClientHello": 1428,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1243,
+          "EncryptedExtensions": 6,
+          "Certificate": 333,
+          "CertificateVerify": 72,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 3465,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 1.02
+        },
+        {
+          "connections": 3897,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.14
+        },
+        {
+          "connections": 4027,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.33
+        }
+      ],
+      "median_per_second": 1003.4752389222868,
+      "median_client_cpu_ms": 0.2943722943722944
+    },
+    {
+      "signature": "ed25519",
+      "group": "MLKEM768",
+      "cert_der_len": 320,
+      "handshake": {
+        "group": "MLKEM768",
+        "peer_signature": "ed25519",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 1740,
+        "bytes_written": 1448,
+        "sent": {
+          "ClientHello": 1363,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1178,
+          "EncryptedExtensions": 6,
+          "Certificate": 333,
+          "CertificateVerify": 72,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 4639,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 1.08
+        },
+        {
+          "connections": 5376,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.34
+        },
+        {
+          "connections": 5122,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.2
+        }
+      ],
+      "median_per_second": 1343.4694468572839,
+      "median_client_cpu_ms": 0.23428348301444749
+    },
+    {
+      "signature": "rsa-2048",
+      "group": "X25519",
+      "cert_der_len": 781,
+      "handshake": {
+        "group": "X25519",
+        "peer_signature": "rsa_pss_rsae_sha256",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 1337,
+        "bytes_written": 304,
+        "sent": {
+          "ClientHello": 219,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 122,
+          "EncryptedExtensions": 6,
+          "Certificate": 794,
+          "CertificateVerify": 264,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 3024,
+          "wall_seconds": 3.422000000005937,
+          "client_user_seconds": 0.44
+        },
+        {
+          "connections": 3603,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.48
+        },
+        {
+          "connections": 3600,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.7
+        }
+      ],
+      "median_per_second": 900.0,
+      "median_client_cpu_ms": 0.1455026455026455
+    },
+    {
+      "signature": "rsa-2048",
+      "group": "secp256r1",
+      "cert_der_len": 781,
+      "handshake": {
+        "group": "secp256r1",
+        "peer_signature": "rsa_pss_rsae_sha256",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 1370,
+        "bytes_written": 337,
+        "sent": {
+          "ClientHello": 252,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 155,
+          "EncryptedExtensions": 6,
+          "Certificate": 794,
+          "CertificateVerify": 264,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2929,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 0.66
+        },
+        {
+          "connections": 3409,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.88
+        },
+        {
+          "connections": 3353,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.77
+        }
+      ],
+      "median_per_second": 848.2479003761554,
+      "median_client_cpu_ms": 0.22964509394572025
+    },
+    {
+      "signature": "rsa-2048",
+      "group": "X25519MLKEM768",
+      "cert_der_len": 781,
+      "handshake": {
+        "group": "X25519MLKEM768",
+        "peer_signature": "rsa_pss_rsae_sha256",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 2425,
+        "bytes_written": 1480,
+        "sent": {
+          "ClientHello": 1395,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1210,
+          "EncryptedExtensions": 6,
+          "Certificate": 794,
+          "CertificateVerify": 264,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2105,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 0.69
+        },
+        {
+          "connections": 2034,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.78
+        },
+        {
+          "connections": 2235,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.0
+        }
+      ],
+      "median_per_second": 558.75,
+      "median_client_cpu_ms": 0.3834808259587021
+    },
+    {
+      "signature": "rsa-2048",
+      "group": "SecP256r1MLKEM768",
+      "cert_der_len": 781,
+      "handshake": {
+        "group": "SecP256r1MLKEM768",
+        "peer_signature": "rsa_pss_rsae_sha256",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 2458,
+        "bytes_written": 1513,
+        "sent": {
+          "ClientHello": 1428,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1243,
+          "EncryptedExtensions": 6,
+          "Certificate": 794,
+          "CertificateVerify": 264,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2308,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 0.78
+        },
+        {
+          "connections": 2412,
+          "wall_seconds": 4.014999999999418,
+          "client_user_seconds": 0.97
+        },
+        {
+          "connections": 2625,
+          "wall_seconds": 3.985000000000582,
+          "client_user_seconds": 0.95
+        }
+      ],
+      "median_per_second": 658.7202007527269,
+      "median_client_cpu_ms": 0.3619047619047619
+    },
+    {
+      "signature": "rsa-2048",
+      "group": "MLKEM768",
+      "cert_der_len": 781,
+      "handshake": {
+        "group": "MLKEM768",
+        "peer_signature": "rsa_pss_rsae_sha256",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 2393,
+        "bytes_written": 1448,
+        "sent": {
+          "ClientHello": 1363,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1178,
+          "EncryptedExtensions": 6,
+          "Certificate": 794,
+          "CertificateVerify": 264,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2843,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 0.67
+        },
+        {
+          "connections": 2952,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.72
+        },
+        {
+          "connections": 2908,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.62
+        }
+      ],
+      "median_per_second": 738.0,
+      "median_client_cpu_ms": 0.23566654941962714
+    },
+    {
+      "signature": "mldsa44",
+      "group": "X25519",
+      "cert_der_len": 3981,
+      "handshake": {
+        "group": "X25519",
+        "peer_signature": "mldsa44",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 6701,
+        "bytes_written": 304,
+        "sent": {
+          "ClientHello": 219,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 122,
+          "EncryptedExtensions": 6,
+          "Certificate": 3994,
+          "CertificateVerify": 2428,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 3033,
+          "wall_seconds": 3.438000000001921,
+          "client_user_seconds": 0.89
+        },
+        {
+          "connections": 3317,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.17
+        },
+        {
+          "connections": 3323,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.17
+        }
+      ],
+      "median_per_second": 830.75,
+      "median_client_cpu_ms": 0.3520914835991574
+    },
+    {
+      "signature": "mldsa44",
+      "group": "secp256r1",
+      "cert_der_len": 3981,
+      "handshake": {
+        "group": "secp256r1",
+        "peer_signature": "mldsa44",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 6734,
+        "bytes_written": 337,
+        "sent": {
+          "ClientHello": 252,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 155,
+          "EncryptedExtensions": 6,
+          "Certificate": 3994,
+          "CertificateVerify": 2428,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2900,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 1.23
+        },
+        {
+          "connections": 3253,
+          "wall_seconds": 4.014999999999418,
+          "client_user_seconds": 1.2
+        },
+        {
+          "connections": 3209,
+          "wall_seconds": 3.985000000000582,
+          "client_user_seconds": 0.97
+        }
+      ],
+      "median_per_second": 810.2117061022345,
+      "median_client_cpu_ms": 0.3688902551490931
+    },
+    {
+      "signature": "mldsa44",
+      "group": "X25519MLKEM768",
+      "cert_der_len": 3981,
+      "handshake": {
+        "group": "X25519MLKEM768",
+        "peer_signature": "mldsa44",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 7789,
+        "bytes_written": 1480,
+        "sent": {
+          "ClientHello": 1395,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1210,
+          "EncryptedExtensions": 6,
+          "Certificate": 3994,
+          "CertificateVerify": 2428,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2832,
+          "wall_seconds": 3.438000000001921,
+          "client_user_seconds": 1.11
+        },
+        {
+          "connections": 3157,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.84
+        },
+        {
+          "connections": 3091,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.05
+        }
+      ],
+      "median_per_second": 789.25,
+      "median_client_cpu_ms": 0.3396958912973148
+    },
+    {
+      "signature": "mldsa44",
+      "group": "SecP256r1MLKEM768",
+      "cert_der_len": 3981,
+      "handshake": {
+        "group": "SecP256r1MLKEM768",
+        "peer_signature": "mldsa44",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 7822,
+        "bytes_written": 1513,
+        "sent": {
+          "ClientHello": 1428,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1243,
+          "EncryptedExtensions": 6,
+          "Certificate": 3994,
+          "CertificateVerify": 2428,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2650,
+          "wall_seconds": 3.4680000000007567,
+          "client_user_seconds": 1.02
+        },
+        {
+          "connections": 3011,
+          "wall_seconds": 3.985000000000582,
+          "client_user_seconds": 1.05
+        },
+        {
+          "connections": 3033,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.02
+        }
+      ],
+      "median_per_second": 758.25,
+      "median_client_cpu_ms": 0.348721355031551
+    },
+    {
+      "signature": "mldsa44",
+      "group": "MLKEM768",
+      "cert_der_len": 3981,
+      "handshake": {
+        "group": "MLKEM768",
+        "peer_signature": "mldsa44",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 7757,
+        "bytes_written": 1448,
+        "sent": {
+          "ClientHello": 1363,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1178,
+          "EncryptedExtensions": 6,
+          "Certificate": 3994,
+          "CertificateVerify": 2428,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 3058,
+          "wall_seconds": 3.4840000000040163,
+          "client_user_seconds": 0.92
+        },
+        {
+          "connections": 3318,
+          "wall_seconds": 3.985000000000582,
+          "client_user_seconds": 0.83
+        },
+        {
+          "connections": 3386,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.98
+        }
+      ],
+      "median_per_second": 846.5,
+      "median_client_cpu_ms": 0.28942705256940343
+    },
+    {
+      "signature": "mldsa65",
+      "group": "X25519",
+      "cert_der_len": 5510,
+      "handshake": {
+        "group": "X25519",
+        "peer_signature": "mldsa65",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 9119,
+        "bytes_written": 304,
+        "sent": {
+          "ClientHello": 219,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 122,
+          "EncryptedExtensions": 6,
+          "Certificate": 5523,
+          "CertificateVerify": 3317,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2360,
+          "wall_seconds": 3.438000000001921,
+          "client_user_seconds": 0.77
+        },
+        {
+          "connections": 2631,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.77
+        },
+        {
+          "connections": 2579,
+          "wall_seconds": 4.014999999999418,
+          "client_user_seconds": 0.8
+        }
+      ],
+      "median_per_second": 657.75,
+      "median_client_cpu_ms": 0.31019775106630476
+    },
+    {
+      "signature": "mldsa65",
+      "group": "secp256r1",
+      "cert_der_len": 5510,
+      "handshake": {
+        "group": "secp256r1",
+        "peer_signature": "mldsa65",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 9152,
+        "bytes_written": 337,
+        "sent": {
+          "ClientHello": 252,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 155,
+          "EncryptedExtensions": 6,
+          "Certificate": 5523,
+          "CertificateVerify": 3317,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2273,
+          "wall_seconds": 3.438000000001921,
+          "client_user_seconds": 0.83
+        },
+        {
+          "connections": 2519,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.08
+        },
+        {
+          "connections": 2584,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.89
+        }
+      ],
+      "median_per_second": 646.0,
+      "median_client_cpu_ms": 0.365156181258249
+    },
+    {
+      "signature": "mldsa65",
+      "group": "X25519MLKEM768",
+      "cert_der_len": 5510,
+      "handshake": {
+        "group": "X25519MLKEM768",
+        "peer_signature": "mldsa65",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 10207,
+        "bytes_written": 1480,
+        "sent": {
+          "ClientHello": 1395,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1210,
+          "EncryptedExtensions": 6,
+          "Certificate": 5523,
+          "CertificateVerify": 3317,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2251,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 0.88
+        },
+        {
+          "connections": 2500,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.95
+        },
+        {
+          "connections": 2477,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.98
+        }
+      ],
+      "median_per_second": 625.0,
+      "median_client_cpu_ms": 0.3909373611728121
+    },
+    {
+      "signature": "mldsa65",
+      "group": "SecP256r1MLKEM768",
+      "cert_der_len": 5510,
+      "handshake": {
+        "group": "SecP256r1MLKEM768",
+        "peer_signature": "mldsa65",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 10240,
+        "bytes_written": 1513,
+        "sent": {
+          "ClientHello": 1428,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1243,
+          "EncryptedExtensions": 6,
+          "Certificate": 5523,
+          "CertificateVerify": 3317,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2204,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 0.83
+        },
+        {
+          "connections": 2400,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.19
+        },
+        {
+          "connections": 2423,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.05
+        }
+      ],
+      "median_per_second": 605.75,
+      "median_client_cpu_ms": 0.4333470903838217
+    },
+    {
+      "signature": "mldsa65",
+      "group": "MLKEM768",
+      "cert_der_len": 5510,
+      "handshake": {
+        "group": "MLKEM768",
+        "peer_signature": "mldsa65",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 10175,
+        "bytes_written": 1448,
+        "sent": {
+          "ClientHello": 1363,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1178,
+          "EncryptedExtensions": 6,
+          "Certificate": 5523,
+          "CertificateVerify": 3317,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2282,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 0.94
+        },
+        {
+          "connections": 2631,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.97
+        },
+        {
+          "connections": 2602,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.05
+        }
+      ],
+      "median_per_second": 657.75,
+      "median_client_cpu_ms": 0.4035357417371253
+    },
+    {
+      "signature": "mldsa87",
+      "group": "X25519",
+      "cert_der_len": 7468,
+      "handshake": {
+        "group": "X25519",
+        "peer_signature": "mldsa87",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 12395,
+        "bytes_written": 304,
+        "sent": {
+          "ClientHello": 219,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 122,
+          "EncryptedExtensions": 6,
+          "Certificate": 7481,
+          "CertificateVerify": 4635,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2052,
+          "wall_seconds": 3.422000000005937,
+          "client_user_seconds": 0.88
+        },
+        {
+          "connections": 2309,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.05
+        },
+        {
+          "connections": 2218,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.91
+        }
+      ],
+      "median_per_second": 577.25,
+      "median_client_cpu_ms": 0.42884990253411304
+    },
+    {
+      "signature": "mldsa87",
+      "group": "secp256r1",
+      "cert_der_len": 7468,
+      "handshake": {
+        "group": "secp256r1",
+        "peer_signature": "mldsa87",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 12428,
+        "bytes_written": 337,
+        "sent": {
+          "ClientHello": 252,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 155,
+          "EncryptedExtensions": 6,
+          "Certificate": 7481,
+          "CertificateVerify": 4635,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2082,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 0.89
+        },
+        {
+          "connections": 2552,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.06
+        },
+        {
+          "connections": 2617,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.95
+        }
+      ],
+      "median_per_second": 638.0,
+      "median_client_cpu_ms": 0.4153605015673981
+    },
+    {
+      "signature": "mldsa87",
+      "group": "X25519MLKEM768",
+      "cert_der_len": 7468,
+      "handshake": {
+        "group": "X25519MLKEM768",
+        "peer_signature": "mldsa87",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 13483,
+        "bytes_written": 1480,
+        "sent": {
+          "ClientHello": 1395,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1210,
+          "EncryptedExtensions": 6,
+          "Certificate": 7481,
+          "CertificateVerify": 4635,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2218,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 0.88
+        },
+        {
+          "connections": 2461,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.98
+        },
+        {
+          "connections": 2389,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.97
+        }
+      ],
+      "median_per_second": 615.25,
+      "median_client_cpu_ms": 0.39821210889882164
+    },
+    {
+      "signature": "mldsa87",
+      "group": "SecP256r1MLKEM768",
+      "cert_der_len": 7468,
+      "handshake": {
+        "group": "SecP256r1MLKEM768",
+        "peer_signature": "mldsa87",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 13516,
+        "bytes_written": 1513,
+        "sent": {
+          "ClientHello": 1428,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1243,
+          "EncryptedExtensions": 6,
+          "Certificate": 7481,
+          "CertificateVerify": 4635,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2002,
+          "wall_seconds": 3.4530000000013388,
+          "client_user_seconds": 1.02
+        },
+        {
+          "connections": 2367,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.38
+        },
+        {
+          "connections": 2302,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.02
+        }
+      ],
+      "median_per_second": 579.7856935995435,
+      "median_client_cpu_ms": 0.5094905094905094
+    },
+    {
+      "signature": "mldsa87",
+      "group": "MLKEM768",
+      "cert_der_len": 7468,
+      "handshake": {
+        "group": "MLKEM768",
+        "peer_signature": "mldsa87",
+        "protocol": "TLSv1.3",
+        "cipher": "TLS_AES_256_GCM_SHA384",
+        "bytes_read": 13451,
+        "bytes_written": 1448,
+        "sent": {
+          "ClientHello": 1363,
+          "Finished": 52
+        },
+        "received": {
+          "ServerHello": 1178,
+          "EncryptedExtensions": 6,
+          "Certificate": 7481,
+          "CertificateVerify": 4635,
+          "Finished": 52
+        }
+      },
+      "runs": [
+        {
+          "connections": 2382,
+          "wall_seconds": 3.4690000000045984,
+          "client_user_seconds": 0.73
+        },
+        {
+          "connections": 2522,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 0.98
+        },
+        {
+          "connections": 2544,
+          "wall_seconds": 4.0,
+          "client_user_seconds": 1.39
+        }
+      ],
+      "median_per_second": 636.0,
+      "median_client_cpu_ms": 0.3885804916732752
+    }
+  ]
+}
